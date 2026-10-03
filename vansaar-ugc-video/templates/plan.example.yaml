@@ -1,0 +1,108 @@
+# A complete, worked plan for one ~30 s Hinglish UGC video. Copy ideas from here.
+# Paths are relative to the job folder. Every field is explained in references/plan-reference.md.
+
+title: "Liquid Collagen - morning routine (Hinglish)"
+product_name: "Vansaar Liquid Collagen"
+language: hi                       # spoken language: en or hi (Hinglish counts as hi)
+
+inputs:
+  face: inputs/face.png            # the character (AI-generated, or a person who signed a likeness release)
+  product: inputs/product.png      # clean product photo; a transparent PNG gives the best end card
+
+character:
+  pronoun: she                     # she | he | they
+  description: >-
+    Indian woman in her early fifties, warm and confident, salt-and-pepper hair in a low bun,
+    small gold earrings, wearing a soft sage-green cotton kurta.
+
+voice:
+  provider: fal                    # fal (ElevenLabs via fal) | elevenlabs (direct; Indian voice library) | file
+  voice: "<pick a voice: see references/script-and-voice.md>"
+  speed: 1.03
+  stability: 0.42                  # lower = livelier, more human; too low = wobbly
+  similarity_boost: 0.8
+  style: 0.2
+
+setups:                            # each setup = one "camera position" in the same home
+  sofa_medium:
+    scene: >-
+      sitting on a beige fabric sofa in a sunlit Delhi apartment living room, a potted money plant and a
+      wooden side table with a steel tumbler behind her, late-morning window light from the left
+    framing: medium
+    candidates: 2
+    pick: 1
+  sofa_close:
+    scene: same sofa and room as above, slightly closer to the window
+    framing: close
+    candidates: 2
+    pick: 1
+  sofa_product:
+    scene: same sofa and room as above
+    framing: product                # holding the product next to her face
+    candidates: 2
+    pick: 1
+
+segments:
+  - id: s01
+    shot: talk
+    setup: sofa_close
+    say: "अगर आप भी fifty के ऊपर हो, तो ये video आपके लिए है।"
+    caption: "Agar aap bhi 50 ke upar ho, toh ye video aapke liye hai."
+    performance: leans in slightly with a knowing smile, eyebrows raised on the hook
+
+  - id: s02
+    shot: talk
+    setup: sofa_medium
+    say: "मैं रोज़ सुबह अपनी routine में Vansaar Liquid Collagen लेती हूँ।"
+    caption: "Main roz subah apni routine mein Vansaar Liquid Collagen leti hoon."
+    performance: relaxed, matter-of-fact, small open-hand gesture
+
+  - id: s03
+    shot: broll
+    say: "इसमें sea buckthorn और आंवला है — दोनों Vitamin C के अच्छे sources माने जाते हैं।"
+    caption: "Isme sea buckthorn aur amla hai — dono Vitamin C ke achhe sources maane jaate hain."
+    broll:
+      scene: >-
+        close-up of her hands pouring the juice from the product bottle into a small steel glass on a
+        kitchen counter, morning light, a few amla on a plate in the background
+      with_person: false
+      with_product: true
+      motion: she slowly pours the juice into the glass, then sets the bottle down with the label facing the camera
+
+  - id: s04
+    shot: talk
+    setup: sofa_product
+    say: "Taste भी अच्छा है, और routine follow करना बहुत easy है।"
+    caption: "Taste bhi achha hai, aur routine follow karna bahut easy hai."
+    performance: holds the bottle steady near her face, warm smile
+
+  - id: s05
+    shot: talk
+    setup: sofa_medium
+    say: "बस एक बात — कोई भी supplement शुरू करने से पहले अपने doctor से ज़रूर पूछिए।"
+    caption: "Bas ek baat — koi bhi supplement shuru karne se pehle apne doctor se zaroor poochiye."
+    performance: sincere, slower, slight nod
+
+  - id: s06
+    shot: endcard
+    say: "Link नीचे है — vansaar dot com।"
+    caption: "Link neeche hai — vansaar.com"
+
+captions:
+  words_per_card: 3
+  position: 0.70
+
+finish:
+  tighten_pauses: 0.30             # seconds; longer pauses are cut like a creator's jump cuts
+  grain: 0.45
+  handheld: 0.5
+  phone_audio: true
+
+endcard:
+  cta: "Shop at vansaar.com"
+  accent: "Rooted in Ayurveda"
+  theme: dark
+
+music:
+  file: null                       # optional royalty-free track you are licensed to use
+  volume_db: -22

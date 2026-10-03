@@ -1,0 +1,13 @@
+# secrets
+.env
+*.key
+
+# generated videos and work files
+ugc_jobs/
+demo_test/
+*.skill
+
+# python
+__pycache__/
+*.pyc
+.venv/

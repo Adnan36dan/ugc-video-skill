@@ -1,0 +1,60 @@
+# Which AI models the pipeline calls. Everything runs on fal.ai with ONE key (FAL_KEY),
+# except the optional direct-ElevenLabs voice provider (ELEVENLABS_API_KEY).
+#
+# Prices are USD and were checked on fal.ai in Oct 2026. They are only used for the
+# cost estimate; fal bills you directly. Re-check https://fal.ai/pricing before big batches.
+#
+# AI video models improve every few months. To try a newer model, change `endpoint`
+# (and `arg_names` / `defaults` if its inputs are named differently). The model's input
+# names are on its fal.ai page under "API" -> "Schema". See references/models-and-costs.md.
+
+concurrency: 3            # how many clips are generated in parallel
+
+tts:                      # voice (text -> speech), used when plan.voice.provider = fal
+  endpoint: fal-ai/elevenlabs/tts/multilingual-v2
+  price_per_1k_chars: 0.10
+  # Only these keys are sent (other models accept fewer):
+  params: [text, voice, stability, similarity_boost, style, speed, previous_text, next_text,
+           language_code, apply_text_normalization]
+  # More expressive alternative (supports [laughs] [sighs] tags, but no speed/style/context):
+  #   endpoint: fal-ai/elevenlabs/tts/eleven-v3
+  #   params: [text, voice, stability, language_code, apply_text_normalization]
+
+elevenlabs_direct:        # used when plan.voice.provider = elevenlabs (needs ELEVENLABS_API_KEY)
+  model_id: eleven_multilingual_v2
+  price_per_1k_chars: 0.10   # depends on your ElevenLabs plan; only for the estimate
+
+stt:                      # speech -> word timings (captions, clean cuts)
+  endpoint: fal-ai/elevenlabs/speech-to-text
+  price_per_minute: 0.03
+
+image:                    # keyframes: face photo + product photo -> realistic phone-video still
+  endpoint: fal-ai/nano-banana-pro/edit
+  price_per_image: 0.15
+  arg_names: {prompt: prompt, images: image_urls, count: num_images}
+  defaults: {aspect_ratio: "9:16", resolution: "2K", output_format: png}
+  # Cheaper alternative (good, slightly weaker on label text):
+  #   endpoint: fal-ai/nano-banana-2/edit      price_per_image: 0.08
+
+avatar:                   # talking clips: keyframe + voice slice -> lip-synced video
+  endpoint: fal-ai/bytedance/omnihuman/v1.5
+  price_per_second: 0.16
+  max_audio_seconds: 30   # OmniHuman v1.5: 30 s at 1080p, 60 s at 720p
+  arg_names: {image: image_url, audio: audio_url, prompt: prompt}
+  defaults: {resolution: "1080p", turbo_mode: false}
+  # Alternative: Kling AI Avatar v2 Pro ($0.115/s)
+  #   endpoint: fal-ai/kling-video/ai-avatar/v2/pro
+  #   arg_names: {image: image_url, audio: audio_url, prompt: prompt}
+  #   defaults: {}
+
+broll:                    # cut-away clips: keyframe + motion prompt -> 3-15 s video (no audio)
+  endpoint: fal-ai/kling-video/v3/pro/image-to-video
+  price_per_second: 0.112
+  arg_names: {image: start_image_url, prompt: prompt, duration: duration, negative_prompt: negative_prompt}
+  duration_choices: ["3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15"]
+  defaults: {generate_audio: false, cfg_scale: 0.5}
+  # Alternative: Veo 3.1 Fast image-to-video
+  #   endpoint: fal-ai/veo3.1/fast/image-to-video
+  #   arg_names: {image: image_url, prompt: prompt, duration: duration, negative_prompt: negative_prompt}
+  #   duration_choices: ["4s", "6s", "8s"]
+  #   defaults: {generate_audio: false, aspect_ratio: "9:16", resolution: "1080p"}

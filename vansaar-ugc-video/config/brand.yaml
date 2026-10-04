@@ -1,0 +1,45 @@
+# Vansaar 45+ brand settings used by captions, the end card and the disclosure label.
+# Colours and fonts match the approved Vansaar carousel type system.
+
+name: Vansaar 45+
+website: vansaar.com
+logo: assets/logo/vansaar_45plus_logo_gold.png   # official gold logo (relative to the skill folder)
+
+colors:
+  forest: "#154A31"
+  forest_deep: "#0C2F1F"
+  saffron: "#D2691B"
+  saffron_light: "#EFA05A"     # saffron tint for text on the dark-green end card (legibility)
+  burnt_saffron: "#B84E0C"
+  ivory: "#FFFDF8"
+  ivory_warm: "#F4ECDF"
+  ink: "#1F2B24"
+
+fonts:                     # family names inside assets/fonts/*.ttf
+  latin: Manrope ExtraBold
+  devanagari: Mukta ExtraBold
+  accent: Instrument Serif # italic
+
+captions:
+  text_color: "#FFFFFF"
+  highlight_color: "#D2691B"   # saffron: the word being spoken
+  outline_color: "#101410"
+  size: 76                     # px at 1080x1920
+  words_per_card: 3
+  max_chars: 22
+  position: 0.70               # 0 = top, 1 = bottom; 0.70 sits below the face, above Reels UI
+
+disclosure:                    # honest labelling of AI-generated people (ASCI virtual-influencer guidance,
+  show: true                   # platform AI-content rules). Keep it on unless the brand's compliance
+  label: "AI-generated"        # owner decides otherwise.
+
+disclaimer:
+  text: "This product is not intended to diagnose, treat, cure or prevent any disease."
+  show_on_endcard: true
+
+endcard:
+  theme: dark                  # dark = forest green + gold logo; light = ivory + deep-gold logo
+  cta: "Shop at vansaar.com"
+  accent: "Rooted in Ayurveda"
+  hold: 2.5                    # seconds, when the end card has no voice-over
+  hold_after_voice: 0.8        # extra seconds after the last spoken word

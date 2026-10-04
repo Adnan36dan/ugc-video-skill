@@ -52,6 +52,9 @@ def cutout(path):
     bg = np.asarray(mask) == 128
     if bg.mean() < 0.06 or bg.mean() > 0.97:
         return rgb, False
+    fg = ~bg  # a clean packshot on white never touches the photo's edges; a busy scene does
+    if max(fg[0].mean(), fg[-1].mean(), fg[:, 0].mean(), fg[:, -1].mean()) > 0.12:
+        return rgb, False
     alpha = Image.fromarray(np.where(bg, 0, 255).astype(np.uint8), "L")
     alpha = alpha.filter(ImageFilter.MinFilter(3)).filter(ImageFilter.GaussianBlur(1.1))
     rgba = rgb.copy()
